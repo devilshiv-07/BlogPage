@@ -20,16 +20,16 @@ const Login = () => {
   };
 
   return (
-    <div className="w-full h-[92vh] md:h-[90vh] flex items-center justify-center -mt-6 sm:-mt-4">
+    <div className="w-full h-[100vh] flex items-center justify-center pt-2 md:pt-12">
       {/* form div */}
-      <div className="form_container w-76 md:w-90 lg:w-100 flex items-center justify-center relative overflow-hidden z-10">
+      <div className="form_container w-90 md:w-96 lg:w-100 flex items-center justify-center relative overflow-hidden z-10 bg-[#1111215a]">
         <div className="form w-full m-1 px-8 md:px-12 py-10 flex flex-col items-center bg-black z-20">
 
           {/* Login Heading */}
           <h2 className="text-4xl mb-12 mt-2">SignUp</h2>
 
           {/* Form */}
-          <form method="post" className="w-full">
+          <form className="w-full">
 
             {/* Name div */}
             <div className="flex items-center mb-8">

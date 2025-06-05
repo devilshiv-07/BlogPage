@@ -14,9 +14,9 @@ const Login = () => {
   };
 
   return (
-    <div className="w-full h-[92vh] md:h-[90vh] flex items-center justify-center -mt-16 sm:-mt-6 lg:-mt-8">
+    <div className="w-full h-[100vh] flex items-center justify-center sm:pt-6">
       {/* form div */}
-      <div className="form_container w-76 md:w-86 lg:w-90 flex items-center justify-center relative overflow-hidden z-10">
+      <div className="form_container w-76 md:w-86 lg:w-90 flex items-center justify-center relative overflow-hidden z-10 bg-[#1111215a]">
         <div className="form w-full m-1 px-8 md:px-10 py-16 flex flex-col items-center bg-black z-20">
 
           {/* Login Heading */}
