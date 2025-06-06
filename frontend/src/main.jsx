@@ -6,7 +6,7 @@ import App from './App.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <SnackbarProvider>
+    <SnackbarProvider autoHideDuration={3000}>
       <App />
     </SnackbarProvider>
   </StrictMode>

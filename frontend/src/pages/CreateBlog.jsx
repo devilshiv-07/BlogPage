@@ -57,7 +57,7 @@ const CreateBlog = () => {
                 value={formData[id]}
                 onChange={handleChange}
                 placeholder={placeholder}
-                className='border border-teal-300 rounded-[6px] px-3 py-1.5'
+                className='border border-teal-300 rounded-[6px] px-3 py-1.5 text-[#919191] placeholder:text-[#717171]'
                 required
               />
             </div>
@@ -72,7 +72,7 @@ const CreateBlog = () => {
               name="image"
               accept="image/*"
               onChange={handleChange}
-              className='border border-teal-300 rounded-[6px] px-3 py-1.5'
+              className='border border-teal-300 rounded-[6px] file:px-3 file:py-1.5 file:bg-[#eae4e4] file:text-black file:font-[500] text-[#919191]'
               required
             />
           </div>
