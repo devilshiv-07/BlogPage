@@ -4,6 +4,7 @@ import Blog from "./pages/Blog.jsx";
 import SignUp from "./pages/SignUp.jsx"
 import Login from "./pages/Login.jsx"
 import BlogPage from "./pages/BlogPage.jsx";
+import CreateBlog from "./pages/CreateBlog.jsx";
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
           <Route path="/signup" element={<SignUp />}/>
           <Route path="/login" element={<Login />}/>
           <Route path="/blog" element={<BlogPage />}/>
+          <Route path="/create-blog" element={<CreateBlog />}/>
         </Routes>
       </Router>
     </>
