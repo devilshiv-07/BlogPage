@@ -4,6 +4,7 @@ import { FaUser } from "react-icons/fa";
 import { MdOutlineEmail } from "react-icons/md";
 import { TbUserQuestion } from "react-icons/tb";
 import { FaPhoneAlt } from "react-icons/fa";
+import { CgProfile } from "react-icons/cg";
 import { Link } from "react-router-dom";
 
 const Login = () => {
@@ -13,23 +14,33 @@ const Login = () => {
     password: "",
     phone: "",
     role: "",
+    profilePic: null,
   });
 
-  const handlechange = (e) => {
-    setFormData({...formData, [e.target.name]: [e.target.value]})
+  const handleChange = (e) => {
+    const { name, value, type, files } = e.target;
+    setFormData({
+      ...formData,
+      [name]: type === "file" ? files[0] : value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Form submitted:", formData);
   };
 
   return (
-    <div className="w-full h-[100vh] flex items-center justify-center pt-2 md:pt-12">
+    <div className="w-full h-screen flex items-center justify-center">
       {/* form div */}
-      <div className="form_container w-90 md:w-96 lg:w-100 flex items-center justify-center relative overflow-hidden z-10 bg-[#1111215a]">
-        <div className="form w-full m-1 px-8 md:px-12 py-10 flex flex-col items-center bg-black z-20">
+      <div className="form_container w-92 md:w-96 lg:w-100 flex items-center justify-center relative overflow-hidden z-10 bg-[#1111215a] sm:mt-[14vh]">
+        <div className="form w-full m-1 px-8 md:px-10 py-10 flex flex-col items-center bg-black z-20">
 
           {/* Login Heading */}
-          <h2 className="text-4xl mb-12 mt-2">SignUp</h2>
+          <h2 className="text-4xl mb-10 mt-2">SignUp</h2>
 
           {/* Form */}
-          <form className="w-full">
+          <form className="w-full" onSubmit={handleSubmit}>
 
             {/* Name div */}
             <div className="flex items-center mb-8">
@@ -39,10 +50,11 @@ const Login = () => {
               <input
                 name="name"
                 value={formData.name}
-                onChange={handlechange}
+                onChange={handleChange}
                 className="w-full px-3 border-b py-1 placeholder-teal-400"
                 type="text"
                 placeholder="Name"
+                required
               />
             </div>
 
@@ -54,10 +66,11 @@ const Login = () => {
               <input
                 name="email"
                 value={formData.email}
-                onChange={handlechange}
+                onChange={handleChange}
                 className="w-full px-2 border-b py-1 placeholder-teal-400"
                 type="email"
                 placeholder="Email"
+                required
               />
             </div>
 
@@ -69,10 +82,11 @@ const Login = () => {
               <input
                 name="password"
                 value={formData.password}
-                onChange={handlechange}
+                onChange={handleChange}
                 className="w-full px-3 border-b py-1 placeholder-teal-400"
                 type="password"
                 placeholder="Password"
+                required
               />
             </div>
 
@@ -84,25 +98,40 @@ const Login = () => {
               <input
                 name="phone"
                 value={formData.phone}
-                onChange={handlechange}
+                onChange={handleChange}
                 className="w-full px-3 border-b py-1 placeholder-teal-400"
                 type="text"
                 placeholder="Phone"
+                required
               />
             </div>
 
             {/* Role div */}
-            <div className="flex items-center mb-10">
+            <div className="flex items-center mb-8">
               <label>
                 <TbUserQuestion size={18} />
               </label>
               <input
                 name="role"
                 value={formData.role}
-                onChange={handlechange}
+                onChange={handleChange}
                 className="w-full px-3 border-b py-1 placeholder-teal-400"
-                type=""
-                placeholder="Role: [Content-creator, User]"
+                type="text"
+                placeholder="Role: [Admin, Content-creator, User]"
+              />
+            </div>
+
+            {/* Profile Pic div */}
+            <div className="flex items-center mb-10">
+              <label>
+                <CgProfile size={18} />
+              </label>
+              <input
+                name="profilePic"
+                onChange={handleChange}
+                accept="image/*"
+                className="w-full border-b file:py-1 file:px-3 file:text-teal-400 cursor-pointer"
+                type="file"
               />
             </div>
 

@@ -10,7 +10,12 @@ const Login = () => {
   });
 
   const handlechange = (e) => {
-    setFormData({...formData, [e.target.name]: [e.target.value]})
+    setFormData({...formData, [e.target.name]: e.target.value})
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Form submitted:", formData);
   };
 
   return (
@@ -23,7 +28,7 @@ const Login = () => {
           <h2 className="text-5xl mb-14">Login</h2>
 
           {/* Form */}
-          <form method="post" className="w-full">
+          <form onSubmit={handleSubmit} className="w-full">
             {/* name div */}
             <div className="flex items-center mb-10">
               <label>
