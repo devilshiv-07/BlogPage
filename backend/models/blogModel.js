@@ -34,6 +34,19 @@ const blogSchema = new mongoose.Schema({
       type: String,
       required: true,
     },
+    userProfileUrl: {
+      type: String,
+      required: true,
+    },
+    viewCount: {
+      type: Number,
+      default: 0,
+    },
+    likedBy: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    }]
+
 },{ timestamps: true });
 
 module.exports = mongoose.model("Blog", blogSchema);
