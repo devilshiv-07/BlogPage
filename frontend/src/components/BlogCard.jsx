@@ -4,13 +4,15 @@ import { useNavigate } from "react-router-dom";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { FaRegHeart } from "react-icons/fa6";
 
-const BlogCard = () => {
+const BlogCard = ({ blog }) => {
 
     const navigate = useNavigate();
 
     const handleClick = () => {
         navigate(`/blog`)
     }
+
+    console.log(blog);
 
   return (
     <div className="flex flex-col items-start lg:w-[47%] xl:w-[31.7%] rounded-2xl border-b-5 border-b-[#919191] hover:border-b-teal-400 mb-10">

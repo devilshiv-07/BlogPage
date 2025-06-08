@@ -4,6 +4,7 @@ const initialState = {
     _id: "",
     name: "",
     role: "",
+    userProfileUrl: "",
     isAuth: false
 }
 
@@ -12,10 +13,11 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         setUser: (state, action) => {
-            const { _id, name, role } = action.payload;
+            const { _id, name, role, userProfileUrl } = action.payload;
             state._id = _id;
             state.name = name;
             state.role = role;
+            state.userProfileUrl = userProfileUrl;
             state.isAuth = true;
         },
 
@@ -23,6 +25,7 @@ const userSlice = createSlice({
             state._id = "";
             state.name = "";
             state.role = "";
+            state.userProfileUrl = "",
             state.isAuth = false;
         }
     }

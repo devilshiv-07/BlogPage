@@ -10,10 +10,13 @@ const api = axios.create({
 })
 
 // User Endpoints:
-export const login = (data) => api.post("/api/login", data);
-export const signup = (data) => api.post("/api/register", data);
-export const logout = () => api.post("/api/logout");
+export const getUserData = () => api.get("/api/user");
+export const login = (data) => api.post("/api/user/login", data);
+export const signup = (data) => api.post("/api/user/signup", data);
+export const logout = () => api.post("/api/user/logout");
 
 // Blog Endpoints:
-export const createBlog = (data) => api.post("/api/create-blog", data);
-export const getBlogById = (blogId) => api.get(`/api/${blogId}/`);
+export const getAllBlogs = ({pageNumber, category}) => api.get(`/api/blog/all?page=${pageNumber}&category=${category}`);
+export const createBlog = (data) => api.post("/api/blog/create", data);
+export const getBlogById = (blogId) => api.get(`/api/blog/view/${blogId}`);
+export const likeBlogById = (blogId) => api.put(`/api/blog/like/${blogId}`);

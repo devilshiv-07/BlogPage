@@ -4,8 +4,25 @@ const bcrypt = require("bcrypt");
 const config = require("../config/config");
 const jwt = require("jsonwebtoken");
 
+const getUserData = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user._id);
+
+    res.status(200).json({
+      success: true,
+      message: "User data fetched successfully!",
+      user: user,
+    })
+    
+  } catch (error) {
+    next(error);
+  }
+}
+
 const signUp = async (req, res, next) => {
   try {
+    console.log(req.body);
+    console.log(req.file);
     const { name, phone, email, password, role } = req.body;
     const imageUrl = req.file.path;
 
@@ -101,7 +118,7 @@ const login = async (req, res, next) => {
     res.status(200).json({
       success: true,
       message: `Welcome back ${isUserPresent.name}`,
-      data: isUserPresent,
+      user: isUserPresent,
     });
   } catch (error) {
     next(error);
@@ -117,4 +134,4 @@ const logout = async (req, res, next) => {
   }
 };
 
-module.exports = { signUp, login, logout };
+module.exports = { getUserData, signUp, login, logout };

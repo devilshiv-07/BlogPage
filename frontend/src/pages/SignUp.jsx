@@ -6,8 +6,13 @@ import { TbUserQuestion } from "react-icons/tb";
 import { FaPhoneAlt } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUser } from "../redux/slices/userSlice";
+import { signup } from "../http/index";
 
 const Login = () => {
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -19,15 +24,25 @@ const Login = () => {
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
+    if (type === "file") {
+      console.log(files, files[0]);
+    }
     setFormData({
       ...formData,
       [name]: type === "file" ? files[0] : value,
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+    console.log(formData);
+    try {
+      const res = await signup(formData);
+      dispatch(setUser(res.data.user));
+      console.log(res);
+    } catch (err) {
+      console.error("Signup failed:", err);
+    }
   };
 
   return (
@@ -35,13 +50,15 @@ const Login = () => {
       {/* form div */}
       <div className="form_container w-92 md:w-96 lg:w-100 flex items-center justify-center relative overflow-hidden z-10 bg-[#1111215a] sm:mt-[14vh]">
         <div className="form w-full m-1 px-8 md:px-10 py-10 flex flex-col items-center bg-black z-20">
-
           {/* Login Heading */}
           <h2 className="text-4xl mb-10 mt-2">SignUp</h2>
 
           {/* Form */}
-          <form className="w-full" onSubmit={handleSubmit}>
-
+          <form
+            className="w-full"
+            onSubmit={handleSubmit}
+            encType="multipart/form-data"
+          >
             {/* Name div */}
             <div className="flex items-center mb-8">
               <label>
@@ -117,7 +134,7 @@ const Login = () => {
                 onChange={handleChange}
                 className="w-full px-3 border-b py-1 placeholder-teal-400"
                 type="text"
-                placeholder="Role: [Admin, Content-creator, User]"
+                placeholder="Role: [Admin, Content creator, User]"
               />
             </div>
 
@@ -135,10 +152,9 @@ const Login = () => {
               />
             </div>
 
-            {/* Login Button */}
+            {/* SignUp Button */}
             <button
-              className="w-full border-1 border-yellow-300 py-1 text-lg tracking-wide rounded-full mb-6"
-              type="submit"
+              className="w-full border-1 cursor-pointer border-yellow-300 py-1 text-lg tracking-wide rounded-full mb-6"
             >
               SignUp
             </button>
