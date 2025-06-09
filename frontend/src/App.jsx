@@ -13,6 +13,7 @@ import CreateBlog from "./pages/CreateBlog.jsx";
 import useLoadData from "./hooks/useLoadData.js";
 import FullScreenLoader from "./components/FullScreenLoader.jsx";
 import { useSelector } from "react-redux";
+import { enqueueSnackbar } from "notistack";
 
 const ProtectedRoute1 = ({ children }) => {
   const { isAuth, role } = useSelector((state) => state.user);
@@ -26,6 +27,7 @@ const ProtectedRoute1 = ({ children }) => {
 const ProtectedRoute2 = ({ children }) => {
   const { isAuth } = useSelector((state) => state.user);
   if (!isAuth)  {
+    enqueueSnackbar("Please Login to see full blog", {variant: "warning"});
     return <Navigate to="/" />;
   }
 
