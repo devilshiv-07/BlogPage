@@ -11,7 +11,7 @@ const BlogCard = ({ blog }) => {
 
     const navigate = useNavigate();
     const [like, setLike] = useState(blog.likedBy.length);
-    const [color, setColor] = useState("");
+    // const [color, setColor] = useState("");
 
     const handleClick = () => {
         navigate(`/blog/${blog._id}`)
@@ -23,7 +23,7 @@ const BlogCard = ({ blog }) => {
         const res = await likeBlogById(blog._id);
         const data = res.data;
         setLike(data.likeCount);
-        setColor(data.color);
+        // setColor(data.color);
         
       } catch (error) {
         enqueueSnackbar(error.response.data.message, {variant: "warning"});
@@ -90,7 +90,7 @@ const BlogCard = ({ blog }) => {
                 {valueConverter(blog.viewedBy.length)}
             </p>
             <p className="flex items-center gap-1 text-sm">
-                <BiSolidHeart className={`cursor-pointer text-${color}`} onClick={handleLike} size={18}/>
+                <BiSolidHeart className={`cursor-pointer ${like > 0 ? "text-red-500" : ""}`} onClick={handleLike} size={18}/>
                 {valueConverter(like)}
             </p>
         </div>
