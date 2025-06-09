@@ -18,7 +18,7 @@ const useLoadData = () => {
                                 
             } catch (error) {
                 dispatch(removeUser());
-                console.log(error.response.data.message);
+                console.log(error.response?.data?.message);
                 enqueueSnackbar("Please login, or you will miss functionalities", {variant: "default"});
                 
             } finally {
