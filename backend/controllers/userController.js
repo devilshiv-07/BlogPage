@@ -21,10 +21,9 @@ const getUserData = async (req, res, next) => {
 
 const signUp = async (req, res, next) => {
   try {
-    console.log(req.body);
-    console.log(req.file);
+    // console.log(req.file);
     const { name, phone, email, password, role } = req.body;
-    const imageUrl = req.file.path;
+    const imageUrl = req.file?.path;
 
     if (!name || !email || !password || !phone) {
       const error = createHttpError(

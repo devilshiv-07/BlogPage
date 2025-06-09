@@ -33,7 +33,7 @@ const createBlog = async (req, res, next) => {
   try {
     const { name, role, title, category, intro, content, userProfileUrl } =
       req.body;
-    const imageUrl = req.file.path;
+    const imageUrl = req.file?.path;
 
     if (
       !name ||
@@ -42,8 +42,7 @@ const createBlog = async (req, res, next) => {
       !category ||
       !intro ||
       !content ||
-      !userProfileUrl ||
-      !imageUrl
+      !userProfileUrl
     ) {
       const error = createHttpError(400, "All fields are must!");
       return next(error);
@@ -75,16 +74,20 @@ const createBlog = async (req, res, next) => {
 const getBlogById = async (req, res, next) => {
   try {
     const blogId = req.params.id;
-    const blog = await Blog.findByIdAndUpdate(
-      blogId,
-      { $inc: { viewCount: 1 } }, // $inc is the increment operator of MONGODB
-      { new: true }
-    );
+    const userId = req.user?._id;
+
+    const blog = await Blog.findById(blogId);
 
     if (!blog) {
-      const error = createHttpError(400, "Blog is not found!");
+      const error = createHttpError(404, "Blog is not found!");
       return next(error);
     }
+
+    if(userId && blog.viewedBy.indexOf(userId) === -1) {
+      blog.viewedBy.push(userId);
+    }
+
+    await blog.save();
 
     res.status(200).json({
       success: true,
@@ -124,6 +127,7 @@ const likeBlogById = async (req, res, next) => {
       success: true,
       message: index !== -1 ? "Blog Unliked!" : "Blog Liked!",
       likeCount: blog.likedBy.length,
+      color: index !== -1 ? "" : "red-500"
     });
   } catch (error) {
     next(error);

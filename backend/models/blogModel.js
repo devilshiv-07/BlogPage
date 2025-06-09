@@ -32,16 +32,16 @@ const blogSchema = new mongoose.Schema({
     },
     imageUrl: {
       type: String,
-      required: true,
+      default: "https://cdn.pixabay.com/photo/2015/04/23/22/00/new-year-background-736885_1280.jpg",
     },
     userProfileUrl: {
       type: String,
       required: true,
     },
-    viewCount: {
-      type: Number,
-      default: 0,
-    },
+    viewedBy: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    }],
     likedBy: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
