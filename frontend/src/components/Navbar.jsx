@@ -4,14 +4,27 @@ import { IoReorderThreeOutline } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
 import { Link } from "react-router-dom";
 import { enqueueSnackbar } from "notistack";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../http";
+import { removeUser } from "../redux/slices/userSlice";
 
 const MenuItem = ({ setSideBar }) => {
+
+  const { isAuth } = useSelector(state => state.user);
+  const dispatch = useDispatch();
 
   const handleSnackBar = () => {
     enqueueSnackbar("This route is not working", {
       variant: "warning",
     });
   };
+
+  const handleLogout = async () => {
+    setSideBar(false);
+    const res = await logout();
+    dispatch(removeUser());
+    enqueueSnackbar(res.data.message, { variant: "success" });
+  }
 
   return (
     <>
@@ -60,14 +73,24 @@ const MenuItem = ({ setSideBar }) => {
         About
       </Link>
 
-      {/* Login / SignUp */}
-      <Link
+      {/* Login / SignUp / logout */}
+      { isAuth ? (
+        <Link
+        to={"/"}
+        className="hover:bg-teal-500 rounded-md py-1 px-3"
+        onClick={handleLogout}
+      >
+        Logout
+      </Link>
+      ) : (
+        <Link
         to={"/signup"}
         className="hover:bg-teal-500 rounded-md py-1 px-3"
         onClick={() => setSideBar(false)}
       >
         SignUp
       </Link>
+      )}
     </>
   );
 };
