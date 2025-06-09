@@ -6,7 +6,7 @@ const { getAllBlogs, createBlog, getBlogById, likeBlogById } = require("../contr
 
 router.route("/all").get(getAllBlogs);
 router.route("/create").post(isVerifiedUser, upload.single("image"), createBlog);
-router.route("/view/:id").get(getBlogById);
+router.route("/view/:id").get(isVerifiedUser, getBlogById);
 router.route("/like/:id").put(isVerifiedUser, likeBlogById);
 
 module.exports = router;

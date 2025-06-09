@@ -1,21 +1,43 @@
 import React, { useState } from "react";
 import { FaUnlockKeyhole } from "react-icons/fa6";
 import { MdOutlineEmail } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { setUser } from "../redux/slices/userSlice";
+import { useDispatch } from "react-redux";
+import { login } from "../http";
+import { enqueueSnackbar } from "notistack";
 
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
-    password: ""
+    password: "",
   });
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handlechange = (e) => {
-    setFormData({...formData, [e.target.name]: e.target.value})
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+    try {
+      const res = await login(formData);
+      const data = res.data;
+
+      dispatch(setUser(data.user));
+
+      setFormData({
+        email: "",
+        password: "",
+      });
+      enqueueSnackbar(data.message, {variant: "success"});
+
+      navigate("/");
+
+    } catch (error) {
+      console.error("Login falied", error);
+    }
   };
 
   return (
@@ -23,7 +45,6 @@ const Login = () => {
       {/* form div */}
       <div className="form_container w-76 md:w-86 lg:w-90 flex items-center justify-center relative overflow-hidden z-10 bg-[#1111215a]">
         <div className="form w-full m-1 px-8 md:px-10 py-16 flex flex-col items-center bg-black z-20">
-
           {/* Login Heading */}
           <h2 className="text-5xl mb-14">Login</h2>
 

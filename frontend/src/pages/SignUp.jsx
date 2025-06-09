@@ -5,13 +5,15 @@ import { MdOutlineEmail } from "react-icons/md";
 import { TbUserQuestion } from "react-icons/tb";
 import { FaPhoneAlt } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "../redux/slices/userSlice";
 import { signup } from "../http/index";
+import { enqueueSnackbar } from "notistack";
 
 const Login = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -24,9 +26,6 @@ const Login = () => {
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
-    if (type === "file") {
-      console.log(files, files[0]);
-    }
     setFormData({
       ...formData,
       [name]: type === "file" ? files[0] : value,
@@ -35,11 +34,23 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
     try {
+      console.log(formData);
       const res = await signup(formData);
-      dispatch(setUser(res.data.user));
-      console.log(res);
+      const data = res.data;
+      dispatch(setUser(data.user));
+      setFormData({
+        name: "",
+        email: "",
+        password: "",
+        phone: "",
+        role: "",
+        profilePic: null,
+      });
+      enqueueSnackbar(data.message, {variant: "success"});
+
+      navigate("/");
+
     } catch (err) {
       console.error("Signup failed:", err);
     }
@@ -153,9 +164,7 @@ const Login = () => {
             </div>
 
             {/* SignUp Button */}
-            <button
-              className="w-full border-1 cursor-pointer border-yellow-300 py-1 text-lg tracking-wide rounded-full mb-6"
-            >
+            <button className="w-full border-1 cursor-pointer border-yellow-300 py-1 text-lg tracking-wide rounded-full mb-6">
               SignUp
             </button>
           </form>

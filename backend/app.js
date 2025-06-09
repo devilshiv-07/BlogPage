@@ -15,7 +15,7 @@ connectDB();
 // Linking with frontend:
 app.use(cors({
     credentials: true,
-    origin: ["http://localhost:5173"]
+    origin: ["https://blog-page-one-kappa.vercel.app/"]
 }));
 
 // Middlewares:

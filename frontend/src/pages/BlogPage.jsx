@@ -1,34 +1,57 @@
 import { MdOutlineArrowRightAlt } from "react-icons/md";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { FaRegHeart } from "react-icons/fa6";
+import { useParams } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { getBlogById } from "../http";
+import { formatDate, valueConverter } from "../utils/index";
+import { useSelector } from "react-redux";
+import FullScreenLoader from "../components/FullScreenLoader";
 
 const BlogPage = () => {
+  const { blogId } = useParams();
+  const [blog, setBlog] = useState({});
+  const hasFetched = useRef(false);
+  const { _id } = useSelector(state => state.user);
+
+  useEffect(() => {
+    const fetchBlog = async () => {
+      try {
+        const res = await getBlogById({blogId, userId: _id});
+        const blog = res.data.blog;
+        setBlog(blog);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    if (!hasFetched.current) {
+      hasFetched.current = true;
+      fetchBlog();
+    }
+  }, [blogId]);
+
   return (
     <div className="w-full h-screen pt-24 px-10">
       {/* Date and Event */}
       <div className="flex items-center gap-2 font-[300] text-[#c1dbde]">
-        <p className="flex items-center">Tue 27 Aug 2024</p>
+        <p className="flex items-center">{formatDate(blog.createdAt)}</p>
         <span className="pb-1">|</span>
-        <p className="underline text-lg">News & Events</p>
+        <p className="underline text-lg">{blog.category}</p>
       </div>
 
-      <h1 className="mt-4 text-4xl font-[700] text-teal-400">
-        Season like this and a day like this...
-      </h1>
+      <h1 className="mt-4 text-4xl font-[700] text-teal-400">{blog.title}</h1>
 
       <div className="mt-5 flex items-center gap-3 sm:gap-4">
         {/* profile_pic div */}
         <div className="overflow-hidden w-10 h-10 rounded-full flex items-center">
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZ8uPahgoQ-QpRIzGilpiskF67MbGATe-Hxg&s"
-            alt="profile_img"
-          />
+          <img src={blog.userProfileUrl} alt="profile_img" />
         </div>
 
         {/* User Detail div */}
         <div className="flex flex-col tracking-wide">
-          <h1>Little Krishna</h1>
-          <p className="text-xs font-[100]">Universe Creator</p>
+          <h1>{blog.name}</h1>
+          <p className="text-xs font-[100]">{blog.role}</p>
         </div>
       </div>
 
@@ -38,11 +61,11 @@ const BlogPage = () => {
         <div className="flex items-center gap-4">
           <p className="flex items-center gap-1 text-sm">
             <MdOutlineRemoveRedEye size={20} />
-            99B+
+            {valueConverter(blog.viewedBy?.length)}
           </p>
           <p className="flex items-center gap-1 text-sm">
             <FaRegHeart size={18} />
-            99M+
+            {valueConverter(blog.likedBy?.length)}
           </p>
         </div>
         <hr />
@@ -50,28 +73,18 @@ const BlogPage = () => {
 
       {/* Content Div */}
       <div className="text-xl mt-4">
-        <p>
-          If you just love to travel and reach places where you can relax your mind and eyes with the beauty of nature then this is it. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugiat eius vitae nesciunt, voluptas repudiandae quisquam incidunt corrupti adipisci natus perspiciatis vel at deserunt explicabo voluptatibus obcaecati exercitationem repellat nisi ab doloremque, eligendi atque odio, labore consequuntur voluptates? Voluptatem, itaque quidem.
-        </p>
+        <p>{blog.intro}</p>
       </div>
 
       {/* image div */}
       <div className="flex mx-auto w-full md:w-170 h-[40vh] md:h-[45vh] lg:h-[50vh] overflow-hidden rounded-xl items-center mt-4">
-        <img
-          className="h-full w-full"
-          src="https://cdn.pixabay.com/photo/2015/04/23/22/00/new-year-background-736885_1280.jpg"
-          alt="blog_img"
-        />
+        <img className="h-full w-full" src={blog.imageUrl} alt="blog_img" />
       </div>
 
       <div>
-        <ol type="1" className="flex flex-col gap-4 text-lg mt-8">
-            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur obcaecati ipsum sequi rerum doloribus quae minima voluptatem facilis, ex cumque deleniti accusantium earum fuga maxime reprehenderit reiciendis alias consequatur quo quam qui commodi! Sunt incidunt labore soluta harum nisi, dignissimos repellendus tempora veniam assumenda laboriosam voluptatum id amet eligendi quam minima fugit? Vitae, officiis sapiente est fuga facere sunt nisi eaque, rem voluptates consectetur soluta et, cupiditate quos tenetur? At deserunt praesentium amet, qui obcaecati sit libero, placeat ipsum eveniet asperiores cum accusamus officia saepe doloremque atque error inventore a vero alias explicabo officiis ea quibusdam? Cumque ab consectetur vero.</li>
-            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur obcaecati ipsum sequi rerum doloribus quae minima voluptatem facilis, ex cumque deleniti accusantium earum fuga maxime reprehenderit reiciendis alias consequatur quo quam qui commodi! Sunt incidunt labore soluta harum nisi, dignissimos repellendus tempora veniam assumenda laboriosam voluptatum id amet eligendi quam minima fugit? Vitae, officiis sapiente est fuga facere sunt nisi eaque, rem voluptates consectetur soluta et, cupiditate quos tenetur? At deserunt praesentium amet, qui obcaecati sit libero, placeat ipsum eveniet asperiores cum accusamus officia saepe doloremque atque error inventore a vero alias explicabo officiis ea quibusdam? Cumque ab consectetur vero</li>
-            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur obcaecati ipsum sequi rerum doloribus quae minima voluptatem facilis, ex cumque deleniti accusantium earum fuga maxime reprehenderit reiciendis alias consequatur quo quam qui commodi! Sunt incidunt labore soluta harum nisi, dignissimos repellendus tempora veniam assumenda laboriosam voluptatum id amet eligendi quam minima fugit? Vitae, officiis sapiente est fuga facere sunt nisi eaque, rem voluptates consectetur soluta et, cupiditate quos tenetur? At deserunt praesentium amet, qui obcaecati sit libero, placeat ipsum eveniet asperiores cum accusamus officia saepe doloremque atque error inventore a vero alias explicabo officiis ea quibusdam? Cumque ab consectetur vero</li>
-            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur obcaecati ipsum sequi rerum doloribus quae minima voluptatem facilis, ex cumque deleniti accusantium earum fuga maxime reprehenderit reiciendis alias consequatur quo quam qui commodi! Sunt incidunt labore soluta harum nisi, dignissimos repellendus tempora veniam assumenda laboriosam voluptatum id amet eligendi quam minima fugit? Vitae, officiis sapiente est fuga facere sunt nisi eaque, rem voluptates consectetur soluta et, cupiditate quos tenetur? At deserunt praesentium amet, qui obcaecati sit libero, placeat ipsum eveniet asperiores cum accusamus officia saepe doloremque atque error inventore a vero alias explicabo officiis ea quibusdam? Cumque ab consectetur vero</li>
-            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur obcaecati ipsum sequi rerum doloribus quae minima voluptatem facilis, ex cumque deleniti accusantium earum fuga maxime reprehenderit reiciendis alias consequatur quo quam qui commodi! Sunt incidunt labore soluta harum nisi, dignissimos repellendus tempora veniam assumenda laboriosam voluptatum id amet eligendi quam minima fugit? Vitae, officiis sapiente est fuga facere sunt nisi eaque, rem voluptates consectetur soluta et, cupiditate quos tenetur? At deserunt praesentium amet, qui obcaecati sit libero, placeat ipsum eveniet asperiores cum accusamus officia saepe doloremque atque error inventore a vero alias explicabo officiis ea quibusdam? Cumque ab consectetur vero</li>
-        </ol>
+        <pre type="1" className="flex flex-col gap-4 text-lg mt-8 whitespace-pre-wrap">
+          {blog.content}
+        </pre>
       </div>
 
       <hr className="py-6 mt-6" />

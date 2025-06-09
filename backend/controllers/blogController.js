@@ -74,7 +74,7 @@ const createBlog = async (req, res, next) => {
 const getBlogById = async (req, res, next) => {
   try {
     const blogId = req.params.id;
-    const userId = req.user?._id;
+    const userId = req.user._id;
 
     const blog = await Blog.findById(blogId);
 
