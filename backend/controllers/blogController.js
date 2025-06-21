@@ -30,7 +30,7 @@ const getAllBlogs = async (req, res, next) => {
 };
 
 const createBlog = async (req, res, next) => {
-  try {
+  try {    
     const { name, role, title, category, intro, content, userProfileUrl } =
       req.body;
     const imageUrl = req.file?.path;
@@ -45,6 +45,11 @@ const createBlog = async (req, res, next) => {
       !userProfileUrl
     ) {
       const error = createHttpError(400, "All fields are must!");
+      return next(error);
+    }
+
+    if (!req.file) {
+      const error = createHttpError(400, "Image file is required!");
       return next(error);
     }
 
@@ -67,6 +72,7 @@ const createBlog = async (req, res, next) => {
       blog: newBlog,
     });
   } catch (error) {
+    console.error("Error in createBlog:", error);
     next(error);
   }
 };

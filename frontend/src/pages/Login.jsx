@@ -92,7 +92,7 @@ const Login = () => {
           {/* FP and Register */}
           <div className="w-full text-teal-400 flex justify-between items-center">
             <p>Don't have an Account</p>
-            <Link to="/signup">SingUp</Link>
+            <Link to="/signup">SignUp</Link>
           </div>
         </div>
       </div>

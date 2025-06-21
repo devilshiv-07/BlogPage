@@ -21,6 +21,7 @@ app.use(cors({
 // Middlewares:
 app.use(express.json());
 app.use(cookieParser());
+app.use(express.urlencoded({ extended: true}));
 
 // Root endpoint:
 app.get("/", (req, res) => {

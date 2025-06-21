@@ -24,3 +24,5 @@ dist-ssr
 *.sw?
 
 .env
+
+FormData_and_FileUpload_Explanation.txt

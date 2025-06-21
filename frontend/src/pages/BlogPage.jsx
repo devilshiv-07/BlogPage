@@ -5,19 +5,19 @@ import { useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { getBlogById } from "../http";
 import { formatDate, valueConverter } from "../utils/index";
-import { useSelector } from "react-redux";
 import FullScreenLoader from "../components/FullScreenLoader";
 
 const BlogPage = () => {
   const { blogId } = useParams();
   const [blog, setBlog] = useState({});
   const hasFetched = useRef(false);
-  const { _id } = useSelector(state => state.user);
+  const [loader, setLoader] = useState(true);
 
   useEffect(() => {
+    setLoader(true);
     const fetchBlog = async () => {
       try {
-        const res = await getBlogById({blogId, userId: _id});
+        const res = await getBlogById(blogId);
         const blog = res.data.blog;
         setBlog(blog);
       } catch (error) {
@@ -29,8 +29,11 @@ const BlogPage = () => {
       hasFetched.current = true;
       fetchBlog();
     }
+    setLoader(false);
   }, [blogId]);
 
+
+  if(loader) return <FullScreenLoader />
   return (
     <div className="w-full h-screen pt-24 px-10">
       {/* Date and Event */}
