@@ -13,9 +13,17 @@ const PORT = config.port;
 connectDB();
 
 // Linking with frontend:
+const allowedOrigins = ["https://blog-page-one-kappa.vercel.app"];
+
 app.use(cors({
-    credentials: true,
-    origin: ["https://blog-page-one-kappa.vercel.app"]
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
 }));
 
 // Middlewares:
