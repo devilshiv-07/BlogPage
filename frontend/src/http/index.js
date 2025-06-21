@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: import.meta.env.VITE_BACKEND_URL,
+    baseURL: "https://blogpage-ln3o.onrender.com",
     withCredentials: true,
     headers: {
         Accept: "application/json"
@@ -10,7 +10,7 @@ const api = axios.create({
 
 // Create a separate instance for file uploads
 const apiFormData = axios.create({
-    baseURL: import.meta.env.VITE_BACKEND_URL,
+    baseURL: "https://blogpage-ln3o.onrender.com",
     withCredentials: true,
     // No Content-Type header - let browser set it with boundary for multipart/form-data
 })
